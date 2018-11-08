@@ -86,7 +86,7 @@ class Main extends Component {
   render() {
     return (
       <Row>
-        <Col size="md-3">
+        <Col size="md-12">
           <Jumbotron>
             <h1>Search for a topic.</h1>
           </Jumbotron>
@@ -114,7 +114,7 @@ class Main extends Component {
               </FormBtn>
           </form>
         </Col>
-        <Col size="md-9">
+        <Col size="md-12">
           <Jumbotron>
             <h1>Article Results</h1>
           </Jumbotron>
