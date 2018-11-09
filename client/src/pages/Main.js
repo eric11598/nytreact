@@ -143,6 +143,10 @@ class Main extends Component {
 
 
         <Col size="md-12">
+        <Jumbotron>
+            <h1>Saved Articles</h1>
+          </Jumbotron>
+
           {this.state.savedArticles.length ? (
             <List>
               {this.state.savedArticles.map(article => (
