@@ -9,9 +9,9 @@ import { Input, TextArea, FormBtn } from '../components/Form';
 class Main extends Component {
   state = {
     articles: [],
-    queryTerm: '',
-    beginDate: '',
-    endDate: '',
+    topic: '',
+    begin: '',
+    end: '',
     savedArticles: [],
   };
 
@@ -19,47 +19,44 @@ class Main extends Component {
     this.loadSavedArticles();
   }
 
-  loadSavedArticles = () => {
-    API.getSavedArticles()
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          savedArticles: res.data
-        })
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
 
-  deleteArticle = id => {
+
+  deleteArticle=id=> {
     API.deleteArticle(id)
       .then(res => this.loadSavedArticles())
       .catch(err => console.log(err));
 
   };
 
-  getArticles = () => {
-    let query = `${this.state.queryTerm}`;
-    if (this.state.beginDate) {
-      query = `${query}&begin_date=${this.state.beginDate}`;
-    }
-    if (this.state.endDate) {
-      query = `${query}&end_date=${this.state.endDate}`;
-    }
+  getArticles=()=> {
+    let query = `${this.state.topic}`;
+    if (this.state.begin) 
+      query = `${query}&begin_date=${this.state.begin}`;
+    
+    if (this.state.end) 
+      query = `${query}&end_date=${this.state.end}`;
+    
 
     API.nytSearch(query)
       .then(res => {
         console.log(res);
         this.setState({
           articles: res.data.response.docs,
-          queryTerm: '',
-          beginDate: '',
-          endDate: ''
+          topic: '',
+          begin: '',
+          end: ''
         });
       })
       .catch(err => console.log(err));
   };
+  loadSavedArticles=()=> {
+    API.getSavedArticles()
+      .then(res => {console.log(res.data);
+        this.setState({savedArticles: res.data})
+      })
+      .catch(err => {console.log(err);});
+  };
+
 
 
   saveArticle = articleInfo => {
@@ -78,7 +75,7 @@ class Main extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.queryTerm) {
+    if (this.state.topic) {
       this.getArticles();
     }
   };
@@ -92,25 +89,25 @@ class Main extends Component {
           </Jumbotron>
           <form>
             <Input
-              value={this.state.queryTerm}
+              value={this.state.topic}
               onChange={this.handleInputChange}
-              name="queryTerm"
-              placeholder="Topic (required)"
+              name="topic"
+              placeholder="Topic"
             />
             <Input
-              value={this.state.beginDate}
+              value={this.state.begin}
               onChange={this.handleInputChange}
-              name="beginDate"
-              placeholder="Begin (YYYYMMDD - optional)"
+              name="begin"
+              placeholder="Begin - YYYYMMDD"
             />
             <Input
-              value={this.state.endDate}
+              value={this.state.end}
               onChange={this.handleInputChange}
-              name="endDate"
-              placeholder="End (YYYYMMDD - optional)"
+              name="end"
+              placeholder="End - YYYYMMDD"
             />
-            <FormBtn disabled={!this.state.queryTerm} onClick={this.handleFormSubmit}>
-              Submit Search
+            <FormBtn disabled={!this.state.topic} onClick={this.handleFormSubmit}>
+              Submit
               </FormBtn>
           </form>
         </Col>
@@ -131,12 +128,12 @@ class Main extends Component {
                     title: article.headline.main,
                     url: article.web_url,
                     date: article.pub_date
-                  })}> Save Article </button>
+                  })}>Save</button>
                 </ListItem>
               ))}
             </List>
           ) : (
-              <h3>No Results to Display</h3>
+              <h3>No Articles</h3>
             )}
         </Col>
     
@@ -161,13 +158,13 @@ class Main extends Component {
                     style={{ float: 'right' }}
                     onClick={() => this.deleteArticle(article._id)}
                   >
-                    Delete Article
+                    Delete
           </button>
                 </ListItem>
               ))}
             </List>
           ) : (
-              <h3>No Saved Articles to Display</h3>
+              <h3>No Saved Articles</h3>
             )}
         </Col>
         </Row>
