@@ -4,6 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
@@ -14,18 +16,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kitkat0202/nytreact.git"
+    "url": "git+https://github.com/eric11598/nytreact.git"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
     "express": "^4.16.4",
+    "gh-pages": "^2.0.1",
     "if-env": "^1.0.4",
     "mongoose": "^5.3.7"
   },
   "devDependencies": {
     "concurrently": "^4.0.1",
     "nodemon": "^1.18.5"
-  }
+  },
+  "homepage": "https://eric11598.github.io/nytreact/"
 }
